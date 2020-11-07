@@ -18,9 +18,16 @@ type Broker struct {
 
 type client chan string
 
+// ServeMessages waits for Messages and distributes these between all clients.
+// Ends when Messages is closed.
 func (b *Broker) ServeMessages() {
 	for {
-		msg := <-b.Messages
+		msg, open := <-b.Messages
+
+		if !open {
+			log.Printf("The Messages channel was closed. Stopped message serving.")
+			break
+		}
 
 		for client := range b.clients {
 			client <- msg
@@ -72,7 +79,7 @@ func (b *Broker) registerClient() client {
 		b.clients = make(map[client]struct{})
 	}
 
-	client := make(client)
+	client := make(client, 1)
 
 	b.clients[client] = struct{}{}
 

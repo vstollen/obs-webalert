@@ -11,6 +11,10 @@ import (
 
 var templates = template.Must(template.ParseFiles("tmpl/feed.html"))
 
+func rootHandler(w http.ResponseWriter, r *http.Request) {
+	http.Redirect(w, r, "/feed", http.StatusFound)
+}
+
 func feedHandler(w http.ResponseWriter, _ *http.Request) {
 	err := templates.ExecuteTemplate(w, "feed.html", nil)
 	if err != nil {
@@ -25,7 +29,7 @@ func cmdMessenger(m chan string) {
 		message, err := reader.ReadString('\n')
 
 		if err != nil {
-			log.Println("An Error occured while reading your input:")
+			log.Println("An Error occurred while reading your input:")
 			log.Println(err.Error())
 		}
 
@@ -40,7 +44,8 @@ func main() {
 		Messages: messages,
 	}
 
-	http.HandleFunc("/feed/", feedHandler)
+	http.HandleFunc("/", rootHandler)
+	http.HandleFunc("/feed", feedHandler)
 	http.Handle("/events", broker)
 
 	go broker.ServeMessages()
