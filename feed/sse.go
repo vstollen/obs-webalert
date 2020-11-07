@@ -64,7 +64,7 @@ func (b *Broker) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			break
 		}
 
-		_, err := fmt.Fprintf(w, "data: Message: %s\n\n", msg)
+		_, err := fmt.Fprintf(w, "data: %s\n\n", msg)
 
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
