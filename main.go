@@ -2,33 +2,12 @@ package main
 
 import (
 	"bufio"
-	"html/template"
 	"log"
 	"net/http"
 	"os"
 	"webalert/feed"
 	"webalert/send"
 )
-
-var templates = template.Must(template.ParseFiles("tmpl/feed.html", "tmpl/send.html"))
-
-func rootHandler(w http.ResponseWriter, r *http.Request) {
-	http.Redirect(w, r, "/feed", http.StatusFound)
-}
-
-func feedHandler(w http.ResponseWriter, _ *http.Request) {
-	err := templates.ExecuteTemplate(w, "feed.html", nil)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-}
-
-func sendHandler(w http.ResponseWriter, _ *http.Request) {
-	err := templates.ExecuteTemplate(w, "send.html", nil)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-}
 
 func cmdMessenger(m chan string) {
 	reader := bufio.NewReader(os.Stdin)
@@ -56,10 +35,10 @@ func main() {
 		MessageSink: messages,
 	}
 
-	http.HandleFunc("/", rootHandler)
-	http.HandleFunc("/feed", feedHandler)
+	fileServer := http.FileServer(http.Dir("./static"))
+
+	http.Handle("/", fileServer)
 	http.Handle("/events", broker)
-	http.HandleFunc("/send", sendHandler)
 	http.Handle("/socket", receiver)
 
 	go broker.ServeMessages()

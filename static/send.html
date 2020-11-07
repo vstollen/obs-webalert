@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>Send | Web-Alert</title>
 
+    <link rel="stylesheet" href="stylesheets/main.css">
+
     <script type="text/javascript">
         window.addEventListener("load", function () {
             let ws = new WebSocket("ws://localhost:8080/socket")
@@ -43,28 +45,18 @@
             }
         });
     </script>
-
-    <style>
-        .messages {
-            overflow-y: scroll;
-            height: available;
-        }
-
-        .input {
-            position: absolute;
-            bottom: 0;
-        }
-    </style>
 </head>
 <body>
-<div class="messages">
-    <ul id="messages"></ul>
+<div class="columns body">
+    <form name="message-input" class="message-input columns grow bottom">
+        <label for="message">Nachricht:</label>
+        <input name="message" type="text" class="input grow">
+
+        <input type="submit" value="Senden" class="button">
+    </form>
+    <div class="messages">
+        <ul id="messages"></ul>
+    </div>
 </div>
-<form name="message-input" class="input">
-    <label>
-        Nachricht: <input name="message" type="text">
-    </label>
-    <input type="submit" value="Senden">
-</form>
 </body>
 </html>
