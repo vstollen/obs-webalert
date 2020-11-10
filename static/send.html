@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Send | Web-Alert</title>
 
+    <link href="https://fonts.googleapis.com/css2?family=Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="stylesheets/main.css">
 
     <script type="text/javascript">
@@ -43,14 +44,20 @@
     </script>
 </head>
 <body>
-<div class="columns body">
-    <form name="message-input" class="message-input columns grow bottom">
-        <label for="message-input">Nachricht:</label>
-        <input name="message" id="message-input" type="text" placeholder="Nachricht..." class="input grow">
+<div class="main-content flex-row">
+    <div class="flex-column grow">
+        <div class="dropzone box grow">
+            <p><span class="material-icons-outlined md-48 md-dark">insert_photo</span></p>
+            <p class="hint">Bild einfügen...</p>
+        </div>
+        <form name="message-input" class="message-input flex-row bottom">
+            <label for="message-input">Nachricht:</label>
+            <input name="message" id="message-input" type="text" placeholder="Nachricht..." class="text-input grow">
 
-        <input type="submit" value="Senden" class="button">
-    </form>
-    <div class="messages">
+            <input type="submit" value="Senden" class="button">
+        </form>
+    </div>
+    <div class="messages box">
         <ul id="messages"></ul>
     </div>
 </div>
