@@ -7,46 +7,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="stylesheets/main.css">
 
-    <script type="text/javascript">
-        window.addEventListener("load", function () {
-            let ws = new WebSocket("ws://localhost:8080/socket")
-
-            ws.onmessage = function (evt) {
-                let received_msg = evt.data
-                alert(`Received message: ${received_msg}`)
-            }
-
-            ws.onclose = function () {
-                alert("Connection is closed...")
-            }
-
-            // Access the form element...
-            const form = document.forms['message-input'];
-
-            const messageList = document.getElementById("messages")
-
-            // ...and take over its submit event.
-            form.addEventListener("submit", function (event) {
-                event.preventDefault();
-
-                sendData(form.elements.message.value);
-                form.elements.message.value = ""
-            });
-
-            function sendData(message) {
-                ws.send(message)
-
-                const newMessageElement = document.createElement("li")
-                newMessageElement.innerHTML = "message: " + message
-                messageList.appendChild(newMessageElement)
-            }
-        });
-    </script>
+    <script type="text/javascript" src="scripts/send.js"></script>
 </head>
 <body>
 <div class="main-content flex-row">
     <div class="flex-column grow">
-        <div class="dropzone box grow">
+        <div id="dropzone" class="dropzone box grow">
             <p><span class="material-icons-outlined md-48 md-dark">insert_photo</span></p>
             <p class="hint">Bild einfügen...</p>
         </div>
