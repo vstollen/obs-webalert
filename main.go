@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -43,6 +44,8 @@ func main() {
 
 	go broker.ServeMessages()
 	go cmdMessenger(messages)
+
+	fmt.Printf("Starting Server on Post 8080.\n")
 
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
