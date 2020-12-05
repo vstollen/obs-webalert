@@ -83,10 +83,14 @@ func (b *Broker) registerClient() client {
 
 	b.clients[client] = struct{}{}
 
+	fmt.Printf("New client registered.\n")
+
 	return client
 }
 
 func (b *Broker) removeClient(client client) {
 	delete(b.clients, client)
 	close(client)
+
+	fmt.Printf("Removed one client.\n")
 }
