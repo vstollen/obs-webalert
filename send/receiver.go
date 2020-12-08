@@ -7,8 +7,13 @@ import (
 	"net/http"
 )
 
+type Message struct {
+	MessageType int
+	Message []byte
+}
+
 type Receiver struct {
-	MessageSink chan string
+	MessageSink chan Message
 }
 
 var upgrader = websocket.Upgrader{
@@ -26,17 +31,17 @@ func (r *Receiver) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	fmt.Printf("New Sender registered.\n")
 
 	for {
-		messageType, message, err := conn.ReadMessage()
+		messageType, messageData, err := conn.ReadMessage()
 		if err != nil {
 			log.Println(err)
 			return
 		}
 
-		if messageType != websocket.TextMessage {
-			errorMessage := fmt.Sprintf("Message Type: %v not supported!", messageType)
-			panic(errorMessage)
+		message := Message{
+			MessageType: messageType,
+			Message:     messageData,
 		}
 
-		r.MessageSink <- string(message)
+		r.MessageSink <- message
 	}
 }

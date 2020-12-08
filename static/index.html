@@ -12,6 +12,11 @@
             let ws = new WebSocket(`ws://${window.location.host}/feed`)
 
             ws.onmessage = function (event) {
+                if (event.data instanceof Blob) {
+                    console.log("Received binary data.")
+                    return
+                }
+
                 showAlert(event.data)
             }
         })

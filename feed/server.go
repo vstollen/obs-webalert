@@ -35,7 +35,7 @@ func (b *Broker) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			break
 		}
 
-		err := conn.WriteMessage(websocket.TextMessage, []byte(msg))
+		err := conn.WriteMessage(msg.MessageType, msg.Message)
 		if err != nil {
 			log.Println(err)
 		}
