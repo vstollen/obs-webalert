@@ -10,6 +10,7 @@ import (
 	"webalert/send"
 )
 
+// cmdMessenger forwards all messages from Stdin into the m channel.
 func cmdMessenger(m chan string) {
 	reader := bufio.NewReader(os.Stdin)
 
