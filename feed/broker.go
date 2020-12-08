@@ -3,7 +3,6 @@ package feed
 import (
 	"fmt"
 	"log"
-	"net/http"
 )
 
 type Broker struct {
@@ -36,45 +35,8 @@ func (b *Broker) ServeMessages() {
 	}
 }
 
-func (b *Broker) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-
-	flusher, ok := w.(http.Flusher)
-	if !ok {
-		http.Error(w, "Streaming unsupported!", http.StatusInternalServerError)
-		return
-	}
-
-	client := b.registerClient()
-
-	go func() {
-		<- r.Context().Done()
-		b.removeClient(client)
-	}()
-
-	// Event Streaming Header
-	w.Header().Set("Content-Type", "text/event-stream")
-	w.Header().Set("Cache-Control", "no-cache")
-	w.Header().Set("Connection", "keep-alive")
-	w.Header().Set("Transfer-Encoding", "chunked")
-
-	for {
-		msg, open := <-client
-
-		if !open {
-			break
-		}
-
-		_, err := fmt.Fprintf(w, "data: %s\n\n", msg)
-
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-		}
-
-		flusher.Flush()
-	}
-}
-
 func (b *Broker) registerClient() client {
+
 	if b.clients == nil {
 		b.clients = make(map[client]struct{})
 	}

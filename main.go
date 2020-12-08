@@ -39,7 +39,7 @@ func main() {
 	fileServer := http.FileServer(http.Dir("./static"))
 
 	http.Handle("/", fileServer)
-	http.Handle("/events", broker)
+	http.Handle("/feed", broker)
 	http.Handle("/socket", receiver)
 
 	go broker.ServeMessages()
