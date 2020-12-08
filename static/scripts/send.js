@@ -1,7 +1,7 @@
 let ws
 
 window.addEventListener("load", function () {
-    ws = new WebSocket("ws://localhost:8080/socket")
+    ws = new WebSocket(`ws://${window.location.host}/socket`)
 
     ws.onmessage = function (evt) {
         let received_msg = evt.data

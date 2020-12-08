@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -9,6 +10,7 @@ import (
 	"webalert/send"
 )
 
+// cmdMessenger forwards all messages from Stdin into the m channel.
 func cmdMessenger(m chan string) {
 	reader := bufio.NewReader(os.Stdin)
 
@@ -38,11 +40,13 @@ func main() {
 	fileServer := http.FileServer(http.Dir("./static"))
 
 	http.Handle("/", fileServer)
-	http.Handle("/events", broker)
+	http.Handle("/feed", broker)
 	http.Handle("/socket", receiver)
 
 	go broker.ServeMessages()
 	go cmdMessenger(messages)
+
+	fmt.Printf("Starting Server on Post 8080.\n")
 
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }

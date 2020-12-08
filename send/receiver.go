@@ -23,6 +23,8 @@ func (r *Receiver) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	fmt.Printf("New Sender registered.\n")
+
 	for {
 		messageType, message, err := conn.ReadMessage()
 		if err != nil {
