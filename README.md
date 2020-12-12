@@ -1,5 +1,5 @@
 # OBS Webalert
-A tool to add a message feed overlay as a browser source in (OBS Studio)[https://github.com/obsproject/obs-studio].
+A tool to add a message feed overlay as a browser source in [https://github.com/obsproject/obs-studio](OBS Studio).
 
 ## Usage
 Start the webserver the directory containing the `static` folder. The page for sending alerts will then be reachable
