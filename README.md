@@ -7,7 +7,7 @@ at `<your-ip-address>:8080/send.html` and the message feed will be on the index 
 
 ## Building and running from source
 ### Prerequisites
-- You need to have setup and installed (Go)[https://golang.org/].
+- You need to have setup and installed [Go](https://golang.org/).
 
 ## Running from source
 To build and run the project, use the `go run` command:
