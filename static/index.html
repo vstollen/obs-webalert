@@ -10,10 +10,21 @@
     <script type="text/javascript">
         window.addEventListener("load", function () {
             let ws = new WebSocket(`ws://${window.location.host}/feed`)
+            ws.binaryType = "blob"
 
             ws.onmessage = function (event) {
                 if (event.data instanceof Blob) {
                     console.log("Received binary data.")
+
+                    let img = document.createElement('img')
+                    img.style.maxHeight = '500px'
+
+                    let reader = new FileReader()
+                    reader.onload = function (e) {
+                       img.src = e.target.result
+                    }
+                    reader.readAsDataURL(event.data)
+                    showAlert(img)
                     return
                 }
 
@@ -34,7 +45,7 @@
 
             messageElement.appendChild(bubbleElement)
 
-            bubbleElement.innerHTML = message
+            bubbleElement.append(message)
             document.getElementById("alert-container").appendChild(messageElement)
 
             setTimeout(function () {
