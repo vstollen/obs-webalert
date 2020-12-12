@@ -3,11 +3,12 @@ package feed
 import (
 	"fmt"
 	"log"
+	"webalert/send"
 )
 
 type Broker struct {
 	// Channel into which messages are pushed to be broadcast out to attached clients.
-	Messages chan string
+	Messages chan send.Message
 
 	// Set of clients, that should be messaged with incoming Messages.
 	// The Set is represented by a map of empty structs. To add entries do:
@@ -15,7 +16,7 @@ type Broker struct {
 	clients map[client]struct{}
 }
 
-type client chan string
+type client chan send.Message
 
 // ServeMessages waits for Messages and distributes these between all clients.
 // Ends when Messages is closed.

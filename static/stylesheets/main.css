@@ -16,12 +16,17 @@ html, body {
     margin: 0;
 }
 
-.columns {
+.flex-row {
     display: flex;
-    flex-flow: row;
-    height: 100%;
+    flex-direction: row;
 
     justify-content: space-between;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+
 }
 
 .grow {
@@ -33,6 +38,27 @@ html, body {
 }
 
 /*
+    Typographie
+ */
+
+.hint {
+    font-family: Arial, sans-serif;
+    color: #8e8e8e;
+    font-size: 20px;
+}
+/*
+    Icons
+ */
+
+.material-icons-outlined.md-48 {
+    font-size: 48px;
+}
+
+.material-icons-outlined.md-dark {
+    color: rgba(0, 0, 0, 0.54);
+}
+
+/*
     Components
  */
 
@@ -41,25 +67,37 @@ html, body {
     margin-left: 8px;
 }
 
+.box {
+    border: 1px solid gray;
+    border-radius: 4px;
+
+    margin: 8px
+}
+
+/*
+    Main Content
+ */
+
+.main-content {
+    height: 100%;
+}
+
 /*
     Messages
  */
 
 .messages {
-    border: 1px solid gray;
-    border-radius: 4px;
     overflow-y: scroll;
     min-width: 500px;
 
     height: auto;
-    margin: 8px;
 }
 
 /*
     Input
  */
 
-.input {
+.text-input {
     height: 50px;
 
     font-size: 20px;
@@ -68,11 +106,20 @@ html, body {
 }
 
 .message-input {
-    height: fit-content;
-
     padding: 8px;
 }
 
 .message-input label {
     display: none;
+}
+
+/*
+    Drop Zone
+ */
+
+.dropzone {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
 }
