@@ -24,7 +24,14 @@ func (b *Broker) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	client := b.registerClient()
 
 	go func() {
-		<- r.Context().Done()
+		// Remove the client when the connection is closed.
+		// When the connection is closed by the client, conn.ReadMessage() returns an error.
+		// Because we don't expect the message feed to send data, we should only be able to read
+		// on close.
+		_, _, err := conn.ReadMessage()
+		if err == nil {
+			log.Println("Received unexpected message by client. Closing connection.")
+		}
 		b.removeClient(client)
 	}()
 
