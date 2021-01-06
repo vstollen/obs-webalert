@@ -20,3 +20,9 @@ To create an executable, use the `go build` command in the project directory:
 ```bash
 obs-webalert$ go build
 ```
+
+## Running in a docker container
+You can either build the container youself or use our prebuild container from docker hub. To use the container from docker hub run:
+```bash
+$ docker run -it vstollen/obs-webalert
+```
