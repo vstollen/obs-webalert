@@ -4,11 +4,11 @@ import (
 	"bufio"
 	"fmt"
 	"github.com/gorilla/websocket"
+	"github.com/vstollen/obs-webalert/feed"
+	"github.com/vstollen/obs-webalert/send"
 	"log"
 	"net/http"
 	"os"
-	"webalert/feed"
-	"webalert/send"
 )
 
 func main() {

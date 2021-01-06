@@ -1,5 +1,5 @@
 window.addEventListener("load", function () {
-    let ws = new WebSocket(`ws://${window.location.host}/feed`)
+    let ws = new WebSocket(`wss://${window.location.host}/feed`)
     ws.binaryType = "blob"
 
     ws.onmessage = function (event) {

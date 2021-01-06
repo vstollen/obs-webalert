@@ -2,8 +2,8 @@ package feed
 
 import (
 	"fmt"
+	"github.com/vstollen/obs-webalert/send"
 	"log"
-	"webalert/send"
 )
 
 type Broker struct {
