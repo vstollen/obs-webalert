@@ -4,10 +4,11 @@ import (
 	"github.com/gorilla/websocket"
 	"log"
 	"net/http"
+	"time"
 )
 
 var upgrader = websocket.Upgrader{
-	ReadBufferSize: 1024,
+	ReadBufferSize:  1024,
 	WriteBufferSize: 1024,
 }
 
@@ -35,16 +36,30 @@ func (b *Broker) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		b.removeClient(client)
 	}()
 
+	conn.SetReadDeadline(time.Now().Add(60 * time.Second))
+	conn.SetPongHandler(func(_ string) error {
+		_ = conn.SetReadDeadline(time.Now().Add(60 * time.Second))
+		return nil
+	})
+
+	ticker := time.NewTicker(30 * time.Second)
+
 	for {
-		msg, open := <-client
+		select {
+		case msg, open := <-client:
 
-		if !open {
-			break
-		}
+			if !open {
+				break
+			}
 
-		err := conn.WriteMessage(msg.MessageType, msg.Message)
-		if err != nil {
-			log.Println(err)
+			err := conn.WriteMessage(msg.MessageType, msg.Message)
+			if err != nil {
+				log.Println(err)
+			}
+			case <- ticker.C:
+				if err := conn.WriteMessage(websocket.PingMessage, []byte{}); err != nil {
+					return
+				}
 		}
 	}
 }
